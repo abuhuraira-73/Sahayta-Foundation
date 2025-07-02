@@ -1,0 +1,196 @@
+<%@ page import="java.sql.Connection, java.sql.DriverManager, java.sql.PreparedStatement, java.sql.ResultSet" %>
+
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Title -->
+    <title>Gallery - Sahayta Foundation </title>
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+    <!-- animate css -->
+    <link rel="stylesheet" href="../assets/css/animate.min.css" />
+    <!-- Fontawesome css -->
+    <link rel="stylesheet" href="../assets/css/fontawesome.all.min.css" />
+    <!-- Magnific popup css -->
+    <link rel="stylesheet" href="../assets/css/magnific-popup.min.css" />
+    <!-- owl.carousel css -->
+    <link rel="stylesheet" href="../assets/css/owl.carousel.min.css" />
+    <!-- owl.theme.default css -->
+    <link rel="stylesheet" href="../assets/css/owl.theme.default.min.css" />
+    <!-- navber css -->
+    <link rel="stylesheet" href="../assets/css/navber.css" />
+    <!-- meanmenu css -->
+    <link rel="stylesheet" href="../assets/css/meanmenu.css" />
+    <!-- Style css -->
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <!-- Responsive css -->
+    <link rel="stylesheet" href="../assets/css/responsive.css" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+</head>
+
+<body>
+    <!-- Preloader Area -->
+    <div class="preloader">
+        <div class="d-table">
+            <div class="d-table-cell">
+                <div class="lds-spinner">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Area -->
+    <div id="header-placeholder"></div>
+    <!-- /Header Area -->
+
+    <!-- search -->
+    <div class="search-overlay">
+        <div class="d-table">
+            <div class="d-table-cell">
+                <div class="search-overlay-layer"></div>
+                <div class="search-overlay-layer"></div>
+                <div class="search-overlay-layer"></div>
+                <div class="search-overlay-close">
+                    <span class="search-overlay-close-line"></span>
+                    <span class="search-overlay-close-line"></span>
+                </div>
+                <div class="search-overlay-form">
+                    <form>
+                        <input type="text" class="input-search" placeholder="Search here...">
+                        <button type="button"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Banner Area -->
+    <section id="common_banner_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="commn_banner_page">
+                        <h2><span class="color_big_heading">Gallery </span>grid</h2>
+                        <ul class="breadcrumb_wrapper">
+                            <li class="breadcrumb_item"><a href="index.jsp">Home</a></li>
+                            <li class="breadcrumb_item"><img src="../assets/img/icon/arrow.png" alt="img"></li>
+                            <li class="breadcrumb_item active">Gallery grid</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Grid Area -->
+    <section id="gallery_grid_area" class="section_padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-md-12 col-sm-12 col-12">
+                    <div class="section_heading">
+                        <h3>Gallery</h3>
+                        <h2> Explore our <span class="color_big_heading">gallery</span> to know
+                            how we works</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row popup-gallery">
+                <%
+                    // Database connection details
+                    String JDBC_URL = "jdbc:mysql://localhost:3306/ngo?useSSL=false";
+                    String JDBC_USERNAME = "root";
+                    String JDBC_PASSWORD = "abu_1473";
+
+                    // Query to fetch all images from the gallery table
+                    String SELECT_IMAGES_QUERY = "SELECT image_id, image_name FROM gallery";
+
+                    try (Connection conn = DriverManager.getConnection(JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD);
+                         PreparedStatement ps = conn.prepareStatement(SELECT_IMAGES_QUERY)) {
+
+                        ResultSet rs = ps.executeQuery();
+
+                        // Iterate through the result set and display the images
+                        while (rs.next()) {
+                            int imageId = rs.getInt("image_id");
+                            String imageName = rs.getString("image_name");
+                %>
+                        <div class="col-lg-4 co-md-6 col-sm-12 col-12">
+                            <div class="gallery_item">
+                                <img src="<%= request.getContextPath() %>/GetImageServlet?image_id=<%= imageId %>" alt="<%= imageName %>">
+                                <div class="gallery_overlay">
+                                    <a href="<%= request.getContextPath() %>/GetImageServlet?image_id=<%= imageId %>" title="<%= imageName %>">
+                                        <img src="../assets/img/icon/arrow-round.png" alt="icon">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                <%
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                %>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div id="footer-placeholder"></div>
+    <!-- /Footer Area -->
+
+    <!-- Top To Bottom Area -->
+    <div class="go-top">
+        <i class="fas fa-chevron-up"></i>
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <script src="../assets/js/jquery.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="../assets/js/bootstrap.bundle.js"></script>
+    <!-- Meanu js -->
+    <script src="../assets/js/jquery.meanmenu.js"></script>
+    <!-- owl carousel js -->
+    <script src="../assets/js/owl.carousel.min.js"></script>
+    <!-- Magnific Popup js -->
+    <script src="../assets/js/jquery.magnific-popup.min.js"></script>
+    <!-- wow.js -->
+    <script src="../assets/js/wow.min.js"></script>
+    <!-- waypoints.js -->
+    <script src="../assets/js/waypoints.min.js"></script>
+    <!-- counterup.js -->
+    <script src="../assets/js/jquery.counterup.min.js"></script>
+    <!-- Custom js -->
+    <script src="../assets/js/custom.js"></script>
+    <script src="../assets/js/gallery-popup.js"></script>
+
+    <script>
+        // Load header from the shared folder
+        fetch('../shared/header.jsp')
+          .then(response => response.text())
+          .then(data => document.getElementById('header-placeholder').innerHTML = data);
+
+        // Load footer from the shared folder
+        fetch('../shared/footer.html')
+          .then(response => response.text())
+          .then(data => document.getElementById('footer-placeholder').innerHTML = data);
+    </script>
+
+</body>
+
+</html>
